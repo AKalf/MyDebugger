@@ -50,18 +50,18 @@ public class MyDebugWindow : EditorWindow {
     }
     private void DrawFolders(LogFolder_Element_MyDebugger[] folders) {
         if (folders.Length > 0) {
+            float folderContentOffset = ContentOffset.x;
             foreach (LogFolder_Element_MyDebugger folder in folders) {
                 if (folder.files.Count > 0) {
+                    ContentOffset.x = folderContentOffset;
                     folder.Style.Print(folder);
                     if (folder.IsOpen) {
                         ContentOffset.x += Consts.TabOffset;
                         foreach (LogFile_Element_MyDebugger file in folder.Files)
                             file.Style.Print<string>(file.Payload.ToString());
                         DrawFolders(folder.GetChildFolders());
-
                     }
                 }
-
             }
         }
     }
