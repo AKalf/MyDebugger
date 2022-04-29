@@ -65,8 +65,10 @@ namespace MyDebugger {
             if (style.font == null)
                 style.font = MyDebugWindow.MyDebugNormalFont;
             int lineHeight;
-            if (message.Split('\n') != null)
-                lineHeight = style.font.lineHeight * (message.Split('\n').Length + 3);
+            if (message.Split('\n') != null) {
+                lineHeight = style.font.lineHeight;
+                lineHeight *= message.Split('\n').Length;
+            }
             else
                 lineHeight = style.font.lineHeight;
             int lineWidth = (int)MyDebugWindow.Window.position.width;
@@ -74,7 +76,7 @@ namespace MyDebugger {
                 lastBackgroundWidth = lineWidth;
                 lastBackgounrdHeight = lineHeight;
                 lastContentOffset = MyDebugWindow.ContentOffset.x;
-                style.fixedHeight = lineHeight + 20;
+                style.fixedHeight = lineHeight;
                 background = GetBackgroundForStyle(lineWidth, lineHeight, backgroundColor, borderColor);
             }
             style.normal.background = background;

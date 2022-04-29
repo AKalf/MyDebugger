@@ -33,8 +33,8 @@ public class Test : MonoBehaviour {
     private void print() {
 
         for (int i = 0; i < 1000; i++) {
-            int lines = Random.Range(1, 30);
-            string debugMessage = "";
+            int lines = Random.Range(1, 200);
+            string debugMessage = "Total lines: " + lines + '\n';
             for (int j = 0; j < lines; j++) {
                 debugMessage += j + " line -------------------\n";
             }
