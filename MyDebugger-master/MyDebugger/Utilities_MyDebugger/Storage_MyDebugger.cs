@@ -18,7 +18,7 @@ namespace MyDebugger.Storage {
 
         [SerializeField]
         private List<LogFolder_Element_MyDebugger> serializedFolders;
-
+        public const string DEFAULT_PATH_TO_DATABASE = "Assets/MyDebugger-master/Resources";
         [SerializeField]
         private LogFolder_Element_MyDebugger root;
         public LogFolder_Element_MyDebugger Root {
@@ -49,7 +49,16 @@ namespace MyDebugger.Storage {
         }
         private static void OnUnityLaunch() {
             if (instance == null) {
-                instance = AssetDatabase.LoadAssetAtPath<Storage_MyDebugger>("Assets/MyDebugger_Scripts/Storage_MyDebugger.asset");
+                string[] guids = AssetDatabase.FindAssets("t:" + nameof(Storage_MyDebugger));
+                if (guids.Length == 0) {
+                    Debug.LogWarning("No Debugger Databases found, creating one...");
+                    AssetDatabase.CreateAsset(new Storage_MyDebugger(), DEFAULT_PATH_TO_DATABASE);
+                    guids = AssetDatabase.FindAssets("t:" + nameof(Storage_MyDebugger));
+                }
+                if (guids.Length > 1)
+                    Debug.LogError("Multiple Debugger Databases found!");
+                string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+                instance = AssetDatabase.LoadAssetAtPath<Storage_MyDebugger>(path);
             }
             if (instance.serializedFolders == null)
                 instance.serializedFolders = new List<LogFolder_Element_MyDebugger>();
